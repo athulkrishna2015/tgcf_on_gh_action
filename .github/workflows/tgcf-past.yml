@@ -1,0 +1,27 @@
+name: tgcf-past
+
+on:
+  workflow_dispatch
+
+
+jobs:
+  tgcf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          
+      - uses: aahnik/tgcf@main
+        env:
+          TGCF_MODE: "past"
+          API_ID: ${{ secrets.API_ID }}
+          API_HASH: ${{ secrets.API_HASH }}
+          SESSION_STRING: ${{ secrets.SESSION_STRING }}
+
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          message: push files changed
